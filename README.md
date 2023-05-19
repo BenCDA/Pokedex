@@ -29,7 +29,7 @@ Avant de pouvoir utiliser ce Pokedex, assurez-vous d'avoir les éléments suivan
 
 ## Aperçu
 
-![Aperçu du Pokedex](pokedex-preview.png)
+![Aperçu du Pokedex](/images/pokedex.png)
 
 N'hésitez pas à contribuer, signaler des problèmes ou faire des suggestions d'amélioration !
 
