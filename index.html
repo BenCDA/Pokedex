@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokedex</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="search-container">
+    <input type="text" id="search-input" placeholder="Rechercher un Pokémon">
+    <select id="type-filter">
+      <option value="">Tous</option>
+      <option value="normal">Normal</option>
+      <option value="fire">Feu</option>
+      <option value="water">Eau</option>
+      <option value="electric">Électrique</option>
+      <option value="grass">Plante</option>
+      <option value="ice">Glace</option>
+      <option value="fighting">Combat</option>
+      <option value="poison">Poison</option>
+      <option value="ground">Sol</option>
+      <option value="flying">Vol</option>
+      <option value="psychic">Psychique</option>
+      <option value="bug">Insecte</option>
+      <option value="rock">Roche</option>
+      <option value="ghost">Spectre</option>
+      <option value="dragon">Dragon</option>
+      <option value="dark">Ténèbres</option>
+      <option value="steel">Acier</option>
+      <option value="fairy">Fée</option>
+    </select>
+  </div>
+
+  <div id="grid-container"></div>
+
+  <div id="pokemon-details-container" class="hide">
+    <div id="pokemon-details">
+      <span id="pokemon-details-close">&times;</span>
+      <div id="pokemon-details-header">
+        <h2 id="pokemon-details-name"></h2>
+        <span id="pokemon-details-id"></span>
+      </div>
+      <img id="pokemon-details-image" src="" alt="Image Pokémon">
+      <div id="pokemon-details-info">
+        <p id="pokemon-details-types"></p>
+        <p id="pokemon-details-height"></p>
+        <p id="pokemon-details-weight"></p>
+        <p id="pokemon-details-description"></p>
+        <p id="pokemon-details-abilities"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
