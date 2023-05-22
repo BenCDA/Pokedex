@@ -25,10 +25,11 @@ Before you can use this Pokedex, make sure you have the following installed:
 
 ## Ressources
 
-- PokeAPI: [https://pokeapi.co/](https://pokeapi.co/) - API used to get Pokémon data.
+- PokeAPI: [https://pokeapi.co/](https://pokeapi.co/) 
+- API used to get Pokémon data.
 
 ## Overview
 
-![Aperçu du Pokedex](/images/pokededex-bg.png)
+![Aperçu du Pokedex](/images/pokemon-bg.jpg)
 
 Feel free to contribute, report problems or make suggestions for improvement!
