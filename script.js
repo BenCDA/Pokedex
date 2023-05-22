@@ -18,7 +18,7 @@ let pokemonList = [];
 // Fonction pour charger la liste de tous les Pokémon.
 function loadPokemonList() {
   fetch('https://pokeapi.co/api/v2/pokemon?limit=1000')
-    .then(response => response.json())
+    .then(response => response.json()) //On récupère le JSON
     .then(data => {
       pokemonList = data.results;
       displayPokemonList(pokemonList);
@@ -31,7 +31,7 @@ function loadPokemonList() {
 function displayPokemonList(pokemonList) {
   gridContainer.innerHTML = '';
 
-  pokemonList.forEach((pokemon, index) => { 
+  pokemonList.forEach((pokemon, index) => {
     const pokemonCard = document.createElement('div');
     pokemonCard.classList.add('pokemon-card');
     pokemonCard.innerHTML = `
@@ -42,12 +42,12 @@ function displayPokemonList(pokemonList) {
     pokemonCard.addEventListener('click', () => {
       displayPokemonDetails(pokemon);
     });
-    
-    // Ajout de la classe "hide" aux éléments qui ne font pas partie des 20 premiers.
+
+    // Ajout de la classe "hide" aux éléments qui ne font pas partie des 24 premiers.
     if (index >= elementsPerPage) {
       pokemonCard.classList.add('hide');
     }
-    
+
     gridContainer.appendChild(pokemonCard);
   });
 }
@@ -167,15 +167,15 @@ function displayElements() {
   // Calculer l'index de début et de fin des éléments à afficher.
   let startIndex = (currentPage - 1) * elementsPerPage;
   let endIndex = startIndex + elementsPerPage;
-  
+
   // Récupérer tous les éléments.
   let allElements = document.getElementsByClassName('pokemon-card');
-  
+
   // Masquer tous les éléments.
   for (let i = 0; i < allElements.length; i++) {
     allElements[i].style.display = 'none';
   }
-  
+
   // Afficher les éléments de la page actuelle.
   for (let i = startIndex; i < endIndex; i++) {
     if (allElements[i]) {
@@ -185,24 +185,23 @@ function displayElements() {
 }
 
 
-window.onload = function() {
+window.onload = function () {
   displayElements();
 };
 
-document.getElementById('previous-button').addEventListener('click', function() {
+document.getElementById('previous-button').addEventListener('click', function () {
   if (currentPage > 1) {
     currentPage--;
     displayElements();
   }
 });
 
-document.getElementById('next-button').addEventListener('click', function() {
+document.getElementById('next-button').addEventListener('click', function () {
   let totalElements = document.getElementsByClassName('pokemon-card').length;
   let totalPages = Math.ceil(totalElements / elementsPerPage);
-  
+
   if (currentPage < totalPages) {
     currentPage++;
     displayElements();
   }
 });
-
