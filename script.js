@@ -31,7 +31,7 @@ function loadPokemonList() {
 function displayPokemonList(pokemonList) {
   gridContainer.innerHTML = '';
 
-  pokemonList.forEach((pokemon, index) => { // Ajouter l'index en tant que deuxième paramètre de la fonction forEach.
+  pokemonList.forEach((pokemon, index) => { 
     const pokemonCard = document.createElement('div');
     pokemonCard.classList.add('pokemon-card');
     pokemonCard.innerHTML = `
@@ -43,7 +43,7 @@ function displayPokemonList(pokemonList) {
       displayPokemonDetails(pokemon);
     });
     
-    // Ajouter la classe "hide" aux éléments qui ne font pas partie des 20 premiers.
+    // Ajout de la classe "hide" aux éléments qui ne font pas partie des 20 premiers.
     if (index >= elementsPerPage) {
       pokemonCard.classList.add('hide');
     }
