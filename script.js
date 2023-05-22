@@ -126,7 +126,7 @@ function filterPokemonByType(type) {
   }
 }
 
-// Gestionnaire d'événement pour la recherche de Pokémon
+// Gestionnaire d'événement pour la recherche de Pokémon, ajout de la possibilité d'appuyer sur la touche "entrée" du clavier pour déclencher l'événement.
 searchInput.addEventListener('keypress', event => {
   if (event.key === 'Enter') {
     const searchTerm = searchInput.value.trim();
@@ -147,3 +147,50 @@ pokemonDetailsClose.addEventListener('click', () => {
 
 // Chargement initial de la liste des Pokémon
 loadPokemonList();
+
+
+// Mise en place d'un système de pagination
+let currentPage = 1;
+let elementsPerPage = 20;
+
+function displayElements() {
+  // Calculer l'index de début et de fin des éléments à afficher
+  let startIndex = (currentPage - 1) * elementsPerPage;
+  let endIndex = startIndex + elementsPerPage;
+  
+  // Récupérer tous les éléments
+  let allElements = document.getElementsByClassName('pokemon-card');
+  
+  // Masquer tous les éléments
+  for (let i = 0; i < allElements.length; i++) {
+    allElements[i].style.display = 'none';
+  }
+  
+  // Afficher les éléments de la page actuelle
+  for (let i = startIndex; i < endIndex; i++) {
+    if (allElements[i]) {
+      allElements[i].style.display = 'block';
+    }
+  }
+}
+
+window.onload = function() {
+  displayElements();
+};
+
+document.getElementById('previous-button').addEventListener('click', function() {
+  if (currentPage > 1) {
+    currentPage--;
+    displayElements();
+  }
+});
+
+document.getElementById('next-button').addEventListener('click', function() {
+  let totalElements = document.getElementsByClassName('pokemon-card').length;
+  let totalPages = Math.ceil(totalElements / elementsPerPage);
+  
+  if (currentPage < totalPages) {
+    currentPage++;
+    displayElements();
+  }
+});
