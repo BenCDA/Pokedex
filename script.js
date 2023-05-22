@@ -17,7 +17,7 @@ let pokemonList = [];
 
 // Fonction pour charger la liste de tous les Pokémon
 function loadPokemonList() {
-  fetch('https://pokeapi.co/api/v2/pokemon?limit=1000')
+  fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
     .then(response => response.json())
     .then(data => {
       pokemonList = data.results;
@@ -71,7 +71,7 @@ function getPokemonId(pokemonUrl) {
   return urlParts[urlParts.length - 2];
 }
 
-// Fonction pour peupler le filtre de type
+// Fonction pour filtrer le type
 function populateTypeFilter(data) {
   const types = ['Tous'];
 
@@ -124,11 +124,6 @@ function filterPokemonByType(type) {
       .then(results => displayPokemonList(results))
       .catch(error => console.log(error));
   }
-}
-
-// Fonction pour mettre la première lettre en majuscule
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 // Gestionnaire d'événement pour la recherche de Pokémon
