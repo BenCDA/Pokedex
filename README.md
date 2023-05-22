@@ -30,6 +30,6 @@ Before you can use this Pokedex, make sure you have the following installed:
 
 ## Overview
 
-![Aperçu du Pokedex](/images/pokemon-bg.jpg)
+![Aperçu du Pokedex](/images/readme.png)
 
 Feel free to contribute, report problems or make suggestions for improvement!
