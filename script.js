@@ -64,7 +64,7 @@ function displayPokemonDetails(pokemon) {
       pokemonDetailsTypes.textContent = `Types: ${data.types.map(type => type.type.name).join(', ')}`;
       pokemonDetailsHeight.textContent = `Height: ${data.height}`;
       pokemonDetailsWeight.textContent = `Weight: ${data.weight}`;
-      pokemonDetailsDescription.textContent = `Description: `;
+      pokemonDetailsDescription.textContent = `Description: ${data.descriptions}`;
       pokemonDetailsAbilities.textContent = `Abilities: ${data.abilities.map(ability => ability.ability.name).join(', ')}`;
 
       pokemonDetailsContainer.classList.remove('hide');
@@ -161,7 +161,7 @@ loadPokemonList();
 
 // Mise en place d'un système de pagination (on affichera 20 pokémons par page.)
 let currentPage = 1;
-let elementsPerPage = 20;
+let elementsPerPage = 24;
 
 function displayElements() {
   // Calculer l'index de début et de fin des éléments à afficher.
