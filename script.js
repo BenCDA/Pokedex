@@ -17,7 +17,7 @@ let pokemonList = [];
 
 // Fonction pour charger la liste de tous les Pokémon
 function loadPokemonList() {
-  fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
+  fetch('https://pokeapi.co/api/v2/pokemon?limit=1000')
     .then(response => response.json())
     .then(data => {
       pokemonList = data.results;
@@ -31,7 +31,7 @@ function loadPokemonList() {
 function displayPokemonList(pokemonList) {
   gridContainer.innerHTML = '';
 
-  pokemonList.forEach(pokemon => {
+  pokemonList.forEach((pokemon, index) => { // Ajouter l'index en tant que deuxième paramètre de la fonction forEach
     const pokemonCard = document.createElement('div');
     pokemonCard.classList.add('pokemon-card');
     pokemonCard.innerHTML = `
@@ -42,9 +42,16 @@ function displayPokemonList(pokemonList) {
     pokemonCard.addEventListener('click', () => {
       displayPokemonDetails(pokemon);
     });
+    
+    // Ajouter la classe "hide" aux éléments qui ne font pas partie des 20 premiers
+    if (index >= elementsPerPage) {
+      pokemonCard.classList.add('hide');
+    }
+    
     gridContainer.appendChild(pokemonCard);
   });
 }
+
 
 // Fonction pour afficher les détails d'un Pokémon
 function displayPokemonDetails(pokemon) {
@@ -173,6 +180,7 @@ function displayElements() {
     }
   }
 }
+
 
 window.onload = function() {
   displayElements();

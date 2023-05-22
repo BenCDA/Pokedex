@@ -108,6 +108,18 @@ body {
   .hide {
     display: none;
   }
+
+  button {
+    background-color: rgb(186, 128, 128);
+    border: 1px solid;
+    border-radius: 3px;
+  }
+
+  #pagination-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
   
   /* Media Queries */
   
