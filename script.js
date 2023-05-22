@@ -1,4 +1,4 @@
-// Déclaration des variables en manipulant le DOM
+// Déclaration des variables en manipulant le DOM.
 const searchInput = document.getElementById('search-input');
 const typeFilter = document.getElementById('type-filter');
 const gridContainer = document.getElementById('grid-container');
@@ -15,7 +15,7 @@ const pokemonDetailsClose = document.getElementById('pokemon-details-close');
 
 let pokemonList = [];
 
-// Fonction pour charger la liste de tous les Pokémon
+// Fonction pour charger la liste de tous les Pokémon.
 function loadPokemonList() {
   fetch('https://pokeapi.co/api/v2/pokemon?limit=1000')
     .then(response => response.json())
@@ -27,11 +27,11 @@ function loadPokemonList() {
     .catch(error => console.log(error));
 }
 
-// Fonction d'affichage de la liste des Pokémon
+// Fonction d'affichage de la liste des Pokémon.
 function displayPokemonList(pokemonList) {
   gridContainer.innerHTML = '';
 
-  pokemonList.forEach((pokemon, index) => { // Ajouter l'index en tant que deuxième paramètre de la fonction forEach
+  pokemonList.forEach((pokemon, index) => { // Ajouter l'index en tant que deuxième paramètre de la fonction forEach.
     const pokemonCard = document.createElement('div');
     pokemonCard.classList.add('pokemon-card');
     pokemonCard.innerHTML = `
@@ -43,7 +43,7 @@ function displayPokemonList(pokemonList) {
       displayPokemonDetails(pokemon);
     });
     
-    // Ajouter la classe "hide" aux éléments qui ne font pas partie des 20 premiers
+    // Ajouter la classe "hide" aux éléments qui ne font pas partie des 20 premiers.
     if (index >= elementsPerPage) {
       pokemonCard.classList.add('hide');
     }
@@ -53,7 +53,7 @@ function displayPokemonList(pokemonList) {
 }
 
 
-// Fonction pour afficher les détails d'un Pokémon
+// Fonction pour afficher les détails d'un Pokémon.
 function displayPokemonDetails(pokemon) {
   fetch(pokemon.url)
     .then(response => response.json())
@@ -72,7 +72,7 @@ function displayPokemonDetails(pokemon) {
     .catch(error => console.log(error));
 }
 
-// Fonction pour obtenir l'ID d'un Pokémon à partir de son URL
+// Fonction pour obtenir l'ID d'un Pokémon à partir de son URL.
 function getPokemonId(pokemonUrl) {
   const urlParts = pokemonUrl.split('/');
   return urlParts[urlParts.length - 2];
@@ -80,22 +80,23 @@ function getPokemonId(pokemonUrl) {
 
 // Fonction pour filtrer le type
 function populateTypeFilter(data) {
-  const types = ['Tous'];
+  const types = new Set(); // Utilisation d'un Set pour éviter les doublons
 
   data.results.forEach(pokemon => {
     fetch(pokemon.url)
       .then(response => response.json())
       .then(pokemonData => {
         pokemonData.types.forEach(type => {
-          if (!types.includes(type.type.name)) {
-            types.push(type.type.name);
-          }
+          types.add(type.type.name); // Ajout du type au Set
         });
       })
       .catch(error => console.log(error));
   });
 
-  types.forEach(type => {
+  // Conversion du Set en tableau et tri des types
+  const sortedTypes = Array.from(types).sort();
+
+  sortedTypes.forEach(type => {
     const option = document.createElement('option');
     option.value = type.toLowerCase();
     option.textContent = capitalizeFirstLetter(type);
@@ -103,7 +104,7 @@ function populateTypeFilter(data) {
   });
 }
 
-// Fonction pour rechercher un Pokémon par nom ou numéro
+// Fonction pour rechercher un Pokémon par nom ou numéro.
 function searchPokemon(searchTerm) {
   const filteredPokemonList = pokemonList.filter(pokemon => {
     const pokemonName = pokemon.name.toLowerCase();
@@ -113,20 +114,26 @@ function searchPokemon(searchTerm) {
   displayPokemonList(filteredPokemonList);
 }
 
-// Fonction pour filtrer les Pokémon par type
+// Fonction pour filtrer les Pokémon par type.
+// Lien pour le type : https://pokeapi.co/api/v2/type/    .
 function filterPokemonByType(type) {
-  if (type === '') {
+  if (type === 'tous') { 
     displayPokemonList(pokemonList);
   } else {
-    const filteredPokemonList = pokemonList.filter(pokemon => {
-      return fetch(pokemon.url)
+    const filteredPokemonList = [];
+
+    pokemonList.forEach(pokemon => {
+      fetch(pokemon.url)
         .then(response => response.json())
         .then(data => {
           const pokemonTypes = data.types.map(type => type.type.name);
-          return pokemonTypes.includes(type);
+          if (pokemonTypes.includes(type)) {
+            filteredPokemonList.push(pokemon);
+          }
         })
         .catch(error => console.log(error));
     });
+
     Promise.all(filteredPokemonList)
       .then(results => displayPokemonList(results))
       .catch(error => console.log(error));
@@ -141,39 +148,39 @@ searchInput.addEventListener('keypress', event => {
   }
 });
 
-// Gestionnaire d'événement pour le filtre de type
+// Gestionnaire d'événement pour le filtre de type.
 typeFilter.addEventListener('change', event => {
   const selectedType = event.target.value;
   filterPokemonByType(selectedType);
 });
 
-// Gestionnaire d'événement pour fermer les détails d'un Pokémon
+// Gestionnaire d'événement pour fermer les détails d'un Pokémon.
 pokemonDetailsClose.addEventListener('click', () => {
   pokemonDetailsContainer.classList.add('hide');
 });
 
-// Chargement initial de la liste des Pokémon
+// Chargement initial de la liste des Pokémon.
 loadPokemonList();
 
 
-// Mise en place d'un système de pagination
+// Mise en place d'un système de pagination (on affichera 20 pokémons par page.)
 let currentPage = 1;
 let elementsPerPage = 20;
 
 function displayElements() {
-  // Calculer l'index de début et de fin des éléments à afficher
+  // Calculer l'index de début et de fin des éléments à afficher.
   let startIndex = (currentPage - 1) * elementsPerPage;
   let endIndex = startIndex + elementsPerPage;
   
-  // Récupérer tous les éléments
+  // Récupérer tous les éléments.
   let allElements = document.getElementsByClassName('pokemon-card');
   
-  // Masquer tous les éléments
+  // Masquer tous les éléments.
   for (let i = 0; i < allElements.length; i++) {
     allElements[i].style.display = 'none';
   }
   
-  // Afficher les éléments de la page actuelle
+  // Afficher les éléments de la page actuelle.
   for (let i = startIndex; i < endIndex; i++) {
     if (allElements[i]) {
       allElements[i].style.display = 'block';
@@ -202,3 +209,4 @@ document.getElementById('next-button').addEventListener('click', function() {
     displayElements();
   }
 });
+
