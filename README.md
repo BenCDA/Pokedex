@@ -1,35 +1,34 @@
 # Pokedex
 
-Ce projet est un Pokedex interactif développé en utilisant HTML, CSS et JavaScript. Il utilise l'API PokeAPI pour obtenir les informations et les images des Pokémon.
+This project is an interactive Pokedex developed using HTML, CSS and JavaScript. It uses the PokeAPI API to get information and images of Pokémon.
 
-## Fonctionnalités
+## Features
 
-- Affichage de la liste des Pokémon avec leurs noms et images.
-- Recherche de Pokémon par nom et/ou son numéro le représentant dans le pokédex.
-- Affichage des détails d'un Pokémon sélectionné, y compris son type, ses capacités et ses statistiques.
-- Adaptabilité du site à s'afficher correctement sur des écrans de tailles différentes (responsive design).
+- Displays a list of Pokémon with their names and images.
+- Search for Pokémon by name and/or number representing it in the pokédex.
+- Displaying details of a selected Pokémon, including its type, abilities and statistics.
+- Adaptability of the site to display correctly on different screen sizes (responsive design).
 
-## Prérequis
+## Prerequisites
 
-Avant de pouvoir utiliser ce Pokedex, assurez-vous d'avoir les éléments suivants installés :
+Before you can use this Pokedex, make sure you have the following installed:
 
-- Navigateur web compatible avec HTML5, CSS3 et JavaScript.
-- Connexion internet pour accéder à l'API PokeAPI.
+- Web browser compatible with HTML5, CSS3 and JavaScript.
+- Internet connection to access the PokeAPI API.
 
-## Utilisation
+## Usage
 
-1. Clonez ce dépôt sur votre machine locale. (Ouvrez le terminal de votre ordinateur puis utiliser la commande "git clone" suivi de la clé SSH de ce dépôt.)
-2. Ouvrez le fichier `index.html` dans votre navigateur web.
-3. Télécharger l'extension "live server" si vous utilisez Visual Studio Code et cliquez sur "GO" en bas à droite de votre écran.
-4. Explorez les différentes fonctionnalités du Pokedex.
+1. Clone this repository on your local machine. (Open the terminal of your computer and use the command "git clone" followed by the SSH key of this repository).
+2. Open the `index.html` file in your web browser.
+3. Download the "live server" extension if you are using Visual Studio Code and click on "GO" at the bottom right of your screen.
+4. Explore the different features of Pokedex.
 
 ## Ressources
 
-- PokeAPI: [https://pokeapi.co/](https://pokeapi.co/) - API utilisée pour obtenir les données des Pokémon.
+- PokeAPI: [https://pokeapi.co/](https://pokeapi.co/) - API used to get Pokémon data.
 
-## Aperçu
+## Overview
 
-![Aperçu du Pokedex](/images/pokedex.png)
+![Aperçu du Pokedex](/images/pokededex-bg.png)
 
-N'hésitez pas à contribuer, signaler des problèmes ou faire des suggestions d'amélioration !
-
+Feel free to contribute, report problems or make suggestions for improvement!
