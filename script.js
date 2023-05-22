@@ -78,46 +78,10 @@ function getPokemonId(pokemonUrl) {
   return urlParts[urlParts.length - 2];
 }
 
+
 // Fonction pour filtrer le type
-function populateTypeFilter(data) {
-  const types = new Set(); // Utilisation d'un Set pour éviter les doublons
-
-  data.results.forEach(pokemon => {
-    fetch(pokemon.url)
-      .then(response => response.json())
-      .then(pokemonData => {
-        pokemonData.types.forEach(type => {
-          types.add(type.type.name); // Ajout du type au Set
-        });
-      })
-      .catch(error => console.log(error));
-  });
-
-  // Conversion du Set en tableau et tri des types
-  const sortedTypes = Array.from(types).sort();
-
-  sortedTypes.forEach(type => {
-    const option = document.createElement('option');
-    option.value = type.toLowerCase();
-    option.textContent = capitalizeFirstLetter(type);
-    typeFilter.appendChild(option);
-  });
-}
-
-// Fonction pour rechercher un Pokémon par nom ou numéro.
-function searchPokemon(searchTerm) {
-  const filteredPokemonList = pokemonList.filter(pokemon => {
-    const pokemonName = pokemon.name.toLowerCase();
-    const pokemonNumber = getPokemonId(pokemon.url);
-    return pokemonName.includes(searchTerm.toLowerCase()) || pokemonNumber === searchTerm;
-  });
-  displayPokemonList(filteredPokemonList);
-}
-
-// Fonction pour filtrer les Pokémon par type.
-// Lien pour le type : https://pokeapi.co/api/v2/type/    .
 function filterPokemonByType(type) {
-  if (type === 'tous') { 
+  if (type === 'all') {
     displayPokemonList(pokemonList);
   } else {
     const filteredPokemonList = [];
@@ -131,26 +95,58 @@ function filterPokemonByType(type) {
             filteredPokemonList.push(pokemon);
           }
         })
-        .catch(error => console.log(error));
+        .catch(error => console.log(error))
+        .finally(() => {
+          if (pokemon === pokemonList[pokemonList.length - 1]) {
+            displayPokemonList(filteredPokemonList);
+          }
+        });
     });
-
-    Promise.all(filteredPokemonList)
-      .then(results => displayPokemonList(results))
-      .catch(error => console.log(error));
   }
 }
 
-// Gestionnaire d'événement pour la recherche de Pokémon, ajout de la possibilité d'appuyer sur la touche "entrée" du clavier pour déclencher l'événement.
-searchInput.addEventListener('keypress', event => {
-  if (event.key === 'Enter') {
-    const searchTerm = searchInput.value.trim();
-    searchPokemon(searchTerm);
-  }
+
+// Fonction pour remplir le filtre de type.
+function populateTypeFilter(data) {
+  const types = new Set();
+
+  data.results.forEach(pokemon => {
+    fetch(pokemon.url)
+      .then(response => response.json())
+      .then(pokemonData => {
+        pokemonData.types.forEach(type => {
+          types.add(type.type.name);
+        });
+      })
+      .catch(error => console.log(error))
+      .finally(() => {
+        if (pokemon === data.results[data.results.length - 1]) {
+          types.forEach(type => {
+            const option = document.createElement('option');
+            option.value = type.toLowerCase();
+            option.textContent = capitalizeFirstLetter(type);
+            typeFilter.appendChild(option);
+          });
+        }
+      });
+  });
+}
+
+// Fonction pour mettre en majuscule la première lettre d'une chaîne de caractères.
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// Gestionnaire d'événement pour la recherche de Pokémon.
+searchInput.addEventListener('input', () => {
+  const searchTerm = searchInput.value.toLowerCase();
+  const filteredPokemonList = pokemonList.filter(pokemon => pokemon.name.includes(searchTerm));
+  displayPokemonList(filteredPokemonList);
 });
 
 // Gestionnaire d'événement pour le filtre de type.
-typeFilter.addEventListener('change', event => {
-  const selectedType = event.target.value;
+typeFilter.addEventListener('change', () => {
+  const selectedType = typeFilter.value;
   filterPokemonByType(selectedType);
 });
 
@@ -159,7 +155,7 @@ pokemonDetailsClose.addEventListener('click', () => {
   pokemonDetailsContainer.classList.add('hide');
 });
 
-// Chargement initial de la liste des Pokémon.
+// Chargement initial de la liste de Pokémon.
 loadPokemonList();
 
 
