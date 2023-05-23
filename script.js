@@ -78,6 +78,21 @@ function getPokemonId(pokemonUrl) {
   return urlParts[urlParts.length - 2];
 }
 
+// Fonction pour rechercher un Pokémon par son numéro dans le Pokédex.
+function searchPokemonByNumber(number) {
+  const filteredPokemon = pokemonList.filter(pokemon => getPokemonId(pokemon.url) === number);
+  displayPokemonList(filteredPokemon);
+}
+
+// Gestionnaire d'événement pour la recherche de Pokémon par ID.
+searchInput.addEventListener('keypress', event => {
+  if (event.key === 'Enter') {
+    const searchId = searchInput.value;
+    searchPokemonByNumber(searchId);
+  }
+});
+
+
 
 // Fonction pour filtrer le type
 function filterPokemonByType(type) {
@@ -159,7 +174,12 @@ pokemonDetailsClose.addEventListener('click', () => {
 loadPokemonList();
 
 
-// Mise en place d'un système de pagination (on affichera 20 pokémons par page.)
+
+
+
+
+
+// Mise en place d'un système de pagination (on affichera 24 pokémons par page.)
 let currentPage = 1;
 let elementsPerPage = 24;
 
