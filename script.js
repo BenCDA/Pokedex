@@ -43,7 +43,7 @@ function displayPokemonList(pokemonList) {
       displayPokemonDetails(pokemon);
     });
 
-    // Ajout de la classe "hide" aux éléments qui ne font pas partie des 24 premiers.
+    // Ajout de la classe "hide" aux éléments qui ne font pas partie des 24 premiers pour les "masquer".
     if (index >= elementsPerPage) {
       pokemonCard.classList.add('hide');
     }
@@ -58,16 +58,26 @@ function displayPokemonDetails(pokemon) {
   fetch(pokemon.url)
     .then(response => response.json())
     .then(data => {
-      pokemonDetailsName.textContent = data.name;
-      pokemonDetailsId.textContent = `#${data.id}`;
-      pokemonDetailsImage.src = data.sprites.front_default;
-      pokemonDetailsTypes.textContent = `Types: ${data.types.map(type => type.type.name).join(', ')}`;
-      pokemonDetailsHeight.textContent = `Height: ${data.height}`;
-      pokemonDetailsWeight.textContent = `Weight: ${data.weight}`;
-      pokemonDetailsDescription.textContent = `Description: ${data.descriptions}`;
-      pokemonDetailsAbilities.textContent = `Abilities: ${data.abilities.map(ability => ability.ability.name).join(', ')}`;
+      // Effectuer une nouvelle requête pour obtenir les détails de l'espèce
+      fetch(data.species.url)
+        .then(response => response.json())
+        .then(speciesData => {
+          // On crée les variables ci-dessous pour avoir la description de chaque pokemon en anglais.
+          const englishDescriptions = speciesData.flavor_text_entries.filter(entry => entry.language.name === 'en');
+          const englishDescription = englishDescriptions[0].flavor_text;
 
-      pokemonDetailsContainer.classList.remove('hide');
+          pokemonDetailsName.textContent = data.name;
+          pokemonDetailsId.textContent = `#${data.id}`;
+          pokemonDetailsImage.src = data.sprites.front_default;
+          pokemonDetailsTypes.textContent = `Types: ${data.types.map(type => type.type.name).join(', ')}`;
+          pokemonDetailsHeight.textContent = `Height: ${data.height}`;
+          pokemonDetailsWeight.textContent = `Weight: ${data.weight}`;
+          pokemonDetailsDescription.textContent = `Description: ${englishDescription}`;
+          pokemonDetailsAbilities.textContent = `Abilities: ${data.abilities.map(ability => ability.ability.name).join(', ')}`;
+
+          pokemonDetailsContainer.classList.remove('hide');
+        })
+        .catch(error => console.log(error));
     })
     .catch(error => console.log(error));
 }
@@ -78,19 +88,6 @@ function getPokemonId(pokemonUrl) {
   return urlParts[urlParts.length - 2];
 }
 
-// Fonction pour rechercher un Pokémon par son numéro dans le Pokédex.
-function searchPokemonByNumber(number) {
-  const filteredPokemon = pokemonList.filter(pokemon => getPokemonId(pokemon.url) === number);
-  displayPokemonList(filteredPokemon);
-}
-
-// Gestionnaire d'événement pour la recherche de Pokémon par ID.
-searchInput.addEventListener('keypress', event => {
-  if (event.key === 'Enter') {
-    const searchId = searchInput.value;
-    searchPokemonByNumber(searchId);
-  }
-});
 
 
 
@@ -165,6 +162,21 @@ typeFilter.addEventListener('change', () => {
   filterPokemonByType(selectedType);
 });
 
+// Fonction pour rechercher un Pokémon par son numéro dans le Pokédex.
+function searchPokemonByNumber(number) {
+  const filteredPokemon = pokemonList.filter(pokemon => getPokemonId(pokemon.url) === number);
+  displayPokemonList(filteredPokemon);
+}
+
+// Gestionnaire d'événement pour la recherche de Pokémon par ID.
+searchInput.addEventListener('keypress', event => {
+  if (event.key === 'Enter') {
+    const searchId = searchInput.value;
+    searchPokemonByNumber(searchId);
+  }
+});
+
+
 // Gestionnaire d'événement pour fermer les détails d'un Pokémon.
 pokemonDetailsClose.addEventListener('click', () => {
   pokemonDetailsContainer.classList.add('hide');
@@ -172,11 +184,6 @@ pokemonDetailsClose.addEventListener('click', () => {
 
 // Chargement initial de la liste de Pokémon.
 loadPokemonList();
-
-
-
-
-
 
 
 // Mise en place d'un système de pagination (on affichera 24 pokémons par page.)
