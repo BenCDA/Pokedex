@@ -16,6 +16,7 @@ const pokemonDetailsClose = document.getElementById('pokemon-details-close');
 let pokemonList = [];
 
 // Fonction pour charger la liste de tous les Pokémon.
+
 function loadPokemonList() {
   fetch('https://pokeapi.co/api/v2/pokemon?limit=1000')
     .then(response => response.json()) //On récupère le JSON
@@ -27,9 +28,12 @@ function loadPokemonList() {
     .catch(error => console.log(error));
 }
 
+
 // Fonction d'affichage de la liste des Pokémon.
+
 function displayPokemonList(pokemonList) {
   gridContainer.innerHTML = '';
+
 
   pokemonList.forEach((pokemon, index) => {
     const pokemonCard = document.createElement('div');
@@ -42,6 +46,7 @@ function displayPokemonList(pokemonList) {
     pokemonCard.addEventListener('click', () => {
       displayPokemonDetails(pokemon);
     });
+
 
     // Ajout de la classe "hide" aux éléments qui ne font pas partie des 24 premiers pour les "masquer".
     if (index >= elementsPerPage) {
@@ -58,11 +63,15 @@ function displayPokemonDetails(pokemon) {
   fetch(pokemon.url)
     .then(response => response.json())
     .then(data => {
+
       // Effectuer une nouvelle requête pour obtenir les détails de l'espèce
+
       fetch(data.species.url)
         .then(response => response.json())
         .then(speciesData => {
+
           // On crée les variables ci-dessous pour avoir la description de chaque pokemon en anglais.
+
           const englishDescriptions = speciesData.flavor_text_entries.filter(entry => entry.language.name === 'en');
           const englishDescription = englishDescriptions[0].flavor_text;
 
@@ -77,12 +86,15 @@ function displayPokemonDetails(pokemon) {
 
           pokemonDetailsContainer.classList.remove('hide');
         })
+
         .catch(error => console.log(error));
     })
+
     .catch(error => console.log(error));
 }
 
 // Fonction pour obtenir l'ID d'un Pokémon à partir de son URL.
+
 function getPokemonId(pokemonUrl) {
   const urlParts = pokemonUrl.split('/');
   return urlParts[urlParts.length - 2];
@@ -92,6 +104,7 @@ function getPokemonId(pokemonUrl) {
 
 
 // Fonction pour filtrer le type
+
 function filterPokemonByType(type) {
   if (type === 'all') {
     displayPokemonList(pokemonList);
@@ -119,6 +132,7 @@ function filterPokemonByType(type) {
 
 
 // Fonction pour remplir le filtre de type.
+
 function populateTypeFilter(data) {
   const types = new Set();
 
@@ -145,11 +159,13 @@ function populateTypeFilter(data) {
 }
 
 // Fonction pour mettre en majuscule la première lettre d'une chaîne de caractères.
+
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 // Gestionnaire d'événement pour la recherche de Pokémon.
+
 searchInput.addEventListener('input', () => {
   const searchTerm = searchInput.value.toLowerCase();
   const filteredPokemonList = pokemonList.filter(pokemon => pokemon.name.includes(searchTerm));
@@ -157,18 +173,23 @@ searchInput.addEventListener('input', () => {
 });
 
 // Gestionnaire d'événement pour le filtre de type.
+
 typeFilter.addEventListener('change', () => {
   const selectedType = typeFilter.value;
   filterPokemonByType(selectedType);
 });
 
+
 // Fonction pour rechercher un Pokémon par son numéro dans le Pokédex.
+
 function searchPokemonByNumber(number) {
   const filteredPokemon = pokemonList.filter(pokemon => getPokemonId(pokemon.url) === number);
   displayPokemonList(filteredPokemon);
 }
 
+
 // Gestionnaire d'événement pour la recherche de Pokémon par ID.
+
 searchInput.addEventListener('keypress', event => {
   if (event.key === 'Enter') {
     const searchId = searchInput.value;
@@ -177,33 +198,43 @@ searchInput.addEventListener('keypress', event => {
 });
 
 
+
 // Gestionnaire d'événement pour fermer les détails d'un Pokémon.
+
 pokemonDetailsClose.addEventListener('click', () => {
   pokemonDetailsContainer.classList.add('hide');
 });
 
 // Chargement initial de la liste de Pokémon.
+
 loadPokemonList();
 
 
+
 // Mise en place d'un système de pagination (on affichera 24 pokémons par page.)
+
 let currentPage = 1;
 let elementsPerPage = 24;
 
 function displayElements() {
+
   // Calculer l'index de début et de fin des éléments à afficher.
+
   let startIndex = (currentPage - 1) * elementsPerPage;
   let endIndex = startIndex + elementsPerPage;
 
   // Récupérer tous les éléments.
+
   let allElements = document.getElementsByClassName('pokemon-card');
 
   // Masquer tous les éléments.
+
   for (let i = 0; i < allElements.length; i++) {
     allElements[i].style.display = 'none';
   }
 
   // Afficher les éléments de la page actuelle.
+
   for (let i = startIndex; i < endIndex; i++) {
     if (allElements[i]) {
       allElements[i].style.display = 'block';
@@ -215,6 +246,7 @@ function displayElements() {
 window.onload = function () {
   displayElements();
 };
+
 
 document.getElementById('previous-button').addEventListener('click', function () {
   if (currentPage > 1) {
