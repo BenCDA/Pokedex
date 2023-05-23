@@ -132,34 +132,6 @@ function filterPokemonByType(type) {
     }
 }
 
-
-// Function to fill the type filter.
-
-function populateTypeFilter(data) {
-    const types = new Set();
-
-    data.results.forEach(pokemon => {
-        fetch(pokemon.url)
-            .then(response => response.json())
-            .then(pokemonData => {
-                pokemonData.types.forEach(type => {
-                    types.add(type.type.name);
-                });
-            })
-            .catch(error => console.log(error))
-            .finally(() => {
-                if (pokemon === data.results[data.results.length - 1]) {
-                    types.forEach(type => {
-                        const option = document.createElement('option');
-                        option.value = type.toLowerCase();
-                        option.textContent = capitalizeFirstLetter(type);
-                        typeFilter.appendChild(option);
-                    });
-                }
-            });
-    });
-}
-
 // Function to capitalize the first letter of a string.
 
 function capitalizeFirstLetter(string) {
