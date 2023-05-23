@@ -19,7 +19,7 @@ let pokemonList = [];
 
 function loadPokemonList() {
     fetch('https://pokeapi.co/api/v2/pokemon?limit=1000')
-        .then(response => response.json()) //On récupère le JSON
+        .then(response => response.json()) // We get the JSON back
         .then(data => {
             pokemonList = data.results;
             displayPokemonList(pokemonList);
