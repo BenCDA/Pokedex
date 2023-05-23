@@ -1,4 +1,5 @@
-// Déclaration des variables en manipulant le DOM.
+// Declaration of variables by manipulating the DOM.
+
 const searchInput = document.getElementById('search-input');
 const typeFilter = document.getElementById('type-filter');
 const gridContainer = document.getElementById('grid-container');
@@ -15,7 +16,7 @@ const pokemonDetailsClose = document.getElementById('pokemon-details-close');
 
 let pokemonList = [];
 
-// Fonction pour charger la liste de tous les Pokémon.
+// Function to load the list of all Pokémon.
 
 function loadPokemonList() {
   fetch('https://pokeapi.co/api/v2/pokemon?limit=1000')
@@ -29,7 +30,7 @@ function loadPokemonList() {
 }
 
 
-// Fonction d'affichage de la liste des Pokémon.
+// Pokémon list display function.
 
 function displayPokemonList(pokemonList) {
   gridContainer.innerHTML = '';
@@ -48,7 +49,8 @@ function displayPokemonList(pokemonList) {
     });
 
 
-    // Ajout de la classe "hide" aux éléments qui ne font pas partie des 24 premiers pour les "masquer".
+    // Adding the "hide" class to elements that are not part of the first 24 to "hide" them.
+
     if (index >= elementsPerPage) {
       pokemonCard.classList.add('hide');
     }
@@ -58,19 +60,20 @@ function displayPokemonList(pokemonList) {
 }
 
 
-// Fonction pour afficher les détails d'un Pokémon.
+// Function to display the details of a Pokémon.
+
 function displayPokemonDetails(pokemon) {
   fetch(pokemon.url)
     .then(response => response.json())
     .then(data => {
 
-      // Effectuer une nouvelle requête pour obtenir les détails de l'espèce
+      // Perform a new query to obtain the details of the species.
 
       fetch(data.species.url)
         .then(response => response.json())
         .then(speciesData => {
 
-          // On crée les variables ci-dessous pour avoir la description de chaque pokemon en anglais.
+          // We create the variables below to have the description of each pokemon in English.
 
           const englishDescriptions = speciesData.flavor_text_entries.filter(entry => entry.language.name === 'en');
           const englishDescription = englishDescriptions[0].flavor_text;
@@ -93,7 +96,7 @@ function displayPokemonDetails(pokemon) {
     .catch(error => console.log(error));
 }
 
-// Fonction pour obtenir l'ID d'un Pokémon à partir de son URL.
+// Function to get the ID of a Pokémon from its URL.
 
 function getPokemonId(pokemonUrl) {
   const urlParts = pokemonUrl.split('/');
@@ -103,7 +106,7 @@ function getPokemonId(pokemonUrl) {
 
 
 
-// Fonction pour filtrer le type
+// Function to filter the type of a Pokémon.
 
 function filterPokemonByType(type) {
   if (type === 'all') {
@@ -131,7 +134,7 @@ function filterPokemonByType(type) {
 }
 
 
-// Fonction pour remplir le filtre de type.
+// Function to fill the type filter.
 
 function populateTypeFilter(data) {
   const types = new Set();
@@ -158,13 +161,13 @@ function populateTypeFilter(data) {
   });
 }
 
-// Fonction pour mettre en majuscule la première lettre d'une chaîne de caractères.
+// Function to capitalize the first letter of a string.
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-// Gestionnaire d'événement pour la recherche de Pokémon.
+// Event manager for Pokémon search.
 
 searchInput.addEventListener('input', () => {
   const searchTerm = searchInput.value.toLowerCase();
@@ -172,7 +175,7 @@ searchInput.addEventListener('input', () => {
   displayPokemonList(filteredPokemonList);
 });
 
-// Gestionnaire d'événement pour le filtre de type.
+// Event manager for the type filter.
 
 typeFilter.addEventListener('change', () => {
   const selectedType = typeFilter.value;
@@ -180,7 +183,7 @@ typeFilter.addEventListener('change', () => {
 });
 
 
-// Fonction pour rechercher un Pokémon par son numéro dans le Pokédex.
+// Function to search for a Pokémon by its number in the Pokédex.
 
 function searchPokemonByNumber(number) {
   const filteredPokemon = pokemonList.filter(pokemon => getPokemonId(pokemon.url) === number);
@@ -188,7 +191,7 @@ function searchPokemonByNumber(number) {
 }
 
 
-// Gestionnaire d'événement pour la recherche de Pokémon par ID.
+// Event manager for searching Pokémon by ID.
 
 searchInput.addEventListener('keypress', event => {
   if (event.key === 'Enter') {
@@ -199,41 +202,41 @@ searchInput.addEventListener('keypress', event => {
 
 
 
-// Gestionnaire d'événement pour fermer les détails d'un Pokémon.
+// Event Manager to close the details of a Pokémon.
 
 pokemonDetailsClose.addEventListener('click', () => {
   pokemonDetailsContainer.classList.add('hide');
 });
 
-// Chargement initial de la liste de Pokémon.
+// Initial loading of the Pokémon list.
 
 loadPokemonList();
 
 
 
-// Mise en place d'un système de pagination (on affichera 24 pokémons par page.)
+// Implementation of a pagination system (24 pokemons will be displayed per page.)
 
 let currentPage = 1;
 let elementsPerPage = 24;
 
 function displayElements() {
 
-  // Calculer l'index de début et de fin des éléments à afficher.
+  // Calculate the start and end index of the elements to be displayed.
 
   let startIndex = (currentPage - 1) * elementsPerPage;
   let endIndex = startIndex + elementsPerPage;
 
-  // Récupérer tous les éléments.
+  // Recover all the elements.
 
   let allElements = document.getElementsByClassName('pokemon-card');
 
-  // Masquer tous les éléments.
+  // Hide all elements.
 
   for (let i = 0; i < allElements.length; i++) {
     allElements[i].style.display = 'none';
   }
 
-  // Afficher les éléments de la page actuelle.
+  // Display the elements of the current page.
 
   for (let i = startIndex; i < endIndex; i++) {
     if (allElements[i]) {

@@ -1,5 +1,10 @@
+@import url('https://fonts.cdnfonts.com/css/pokemon-solid');
+
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Pokemon Solid', sans-serif;
+   color: #f4dc26;
+   letter-spacing: 3px;                                             
   background: #E5E5E5;
   background-image: url(images/pokemon-bg.jpg);
 }
@@ -36,6 +41,11 @@ body {
     flex-direction: column;
     align-items: center;
     cursor: pointer;
+    border: 1px solid;
+    border-radius: 15px;
+    border-width: 5px;
+    border-color: #222224;
+    background-color: #ee1515;
   }
   
   .pokemon-card img {
@@ -111,9 +121,11 @@ body {
   }
 
   button {
-    background-color: rgb(186, 128, 128);
+    background-color: #ee1515;
     border: 1px solid;
     border-radius: 3px;
+    margin-top: 30px;
+    color: #ccc;
   }
 
   #pagination-container {
