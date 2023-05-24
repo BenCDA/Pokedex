@@ -147,6 +147,7 @@ searchInput.addEventListener('input', () => {
 });
 
 // Event manager for the type filter.
+// Use 'change' event for the select.
 
 typeFilter.addEventListener('change', () => {
     const selectedType = typeFilter.value;
@@ -167,9 +168,14 @@ function searchPokemonByNumber(number) {
 searchInput.addEventListener('keypress', event => {
     if (event.key === 'Enter') {
         const searchId = searchInput.value;
+        if (searchId !== '') { 
         searchPokemonByNumber(searchId);
+        } else {
+            displayPokemonList(pokemonList);
+        }
     }
 });
+
 
 
 
